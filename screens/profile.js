@@ -85,8 +85,32 @@ class ProfileScreen extends Component {
           alignItems: 'center',
         }}>
           
-          <Text style={{fontSize:18, fontWeight:'bold', padding:5, margin:5}}>{"Welcome back " + this.state.user.first_name}</Text>
+{/* Welcome back message greeting user */}
 
+            <Text 
+            style={{fontSize:18, fontWeight:'bold', padding:5, margin:5}}>
+            {"Welcome Back " + this.state.user.first_name}
+            </Text>
+
+{/* Providing user ID */}
+
+            <Text 
+            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
+            {"User ID: " + this.state.user.user_id }
+            </Text>
+
+
+{/* Providing user name */}
+            <Text 
+            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
+            {"Name: " + this.state.user.first_name + " " + this.state.user.last_name }
+            </Text>
+
+{/* Providing user email */}
+            <Text 
+            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
+            {"Email: " + this.state.user.email }
+            </Text>
 
         </View>
       );
