@@ -10,6 +10,7 @@ class HomeScreen extends Component {
     this.state = {
       isLoading: true,
       listData: []
+
     }
   }
 
@@ -80,7 +81,7 @@ class HomeScreen extends Component {
                 data={this.state.listData}
                 renderItem={({item}) => (
                     <View>
-                      <Text>{item.user_givenname} {item.user_familyname}</Text>
+                      <Text> {item.user_id} {item.user_givenname} {item.user_familyname}</Text>
                     </View>
                 )}
                 keyExtractor={(item,index) => item.user_id.toString()}
