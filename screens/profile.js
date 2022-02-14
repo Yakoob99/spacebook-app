@@ -84,9 +84,8 @@ class ProfileScreen extends Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-          <Text>
-            {"Welcome back " + this.state.user.first_name}
-         </Text>
+          
+          <Text style={{fontSize:18, fontWeight:'bold', padding:5, margin:5}}>{"Welcome back " + this.state.user.first_name}</Text>
 
 
         </View>
