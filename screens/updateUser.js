@@ -21,7 +21,7 @@ class App extends Component {
     
 
 
-    updateItem = () => {
+    updateItem = async () => {
         let to_send = {};
 
         if (this.state.first_name != this.state.orig_first_name) {
@@ -42,14 +42,14 @@ class App extends Component {
 
         console.log(JSON.stringify(to_send));
 
-        const value = AsyncStorage.getItem('@session_token');
-        const userid = AsyncStorage.getItem('@userid')
+        const value = await AsyncStorage.getItem('@session_token');
+        const userid = await AsyncStorage.getItem('@session_id')
 
-        return fetch("http://localhost:3333/api/1.0.0/" + "user/" + "8", {
+        return fetch("http://localhost:3333/api/1.0.0/user/" + userid, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
-                'x-authorization': '5a3307cb7807f016e3e44930dbb4c816',
+                'x-authorization': value,
             },
             body: JSON.stringify(to_send)
         })
