@@ -87,25 +87,30 @@ class App extends Component {
                     placeholder="Enter first name..."
                     onChangeText={(first_name) => this.setState({ first_name })}
                     value={this.state.first_name}
+                    style={{padding:5, borderWidth:1, margin:5}}
                 />
                 <TextInput
                     placeholder="Enter last name..."
                     onChangeText={(last_name) => this.setState({ last_name })}
                     value={this.state.last_name}
+                    style={{padding:5, borderWidth:1, margin:5}}
                 />
                 <TextInput
                     placeholder="Enter email..."
                     onChangeText={(email) => this.setState({ email })}
                     value={this.state.email}
+                    style={{padding:5, borderWidth:1, margin:5}}
                 />
                 <TextInput
                     placeholder="Enter password..."
                     onChangeText={(password) => this.setState({ password })}
                     value={this.state.password}
+                    style={{padding:5, borderWidth:1, margin:5}}
                 />
                 <Button
                     title="Update"
                     onPress={() => this.updateItem()}
+                    style={{padding:5, borderWidth:1, margin:5}}
                 />
             </View>
         );
