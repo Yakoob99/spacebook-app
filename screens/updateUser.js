@@ -19,7 +19,17 @@ class App extends Component {
         };
     }
     
-
+    componentDidMount() {
+        this.unsubscribe = this.props.navigation.addListener('focus', () => {
+          this.checkLoggedIn();
+        });
+      
+        this.updateItem();
+      }
+    
+      componentWillUnmount() {
+        this.unsubscribe();
+      }
 
     updateItem = async () => {
         let to_send = {};
@@ -61,7 +71,12 @@ class App extends Component {
             })
     }
 
-
+    checkLoggedIn = async () => {
+        const value = await AsyncStorage.getItem('@session_token');
+        if (value == null) {
+            this.props.navigation.navigate('Login');
+        }
+      };
 
     render() {
         return (
