@@ -28,7 +28,8 @@ class FriendsScreen extends Component {
 
   getData = async () => {
     const value = await AsyncStorage.getItem('@session_token');
-    return fetch("http://localhost:3333/api/1.0.0/search", {
+    const idValue = await AsyncStorage.getItem('@session_id');
+    return fetch("http://localhost:3333/api/1.0.0/user/" + idValue + "/friends", {
           'headers': {
             'X-Authorization':  value
           }
@@ -60,24 +61,6 @@ class FriendsScreen extends Component {
     }
   };
 
-  searchUser = async () => {
-    return (
-      <View>
-        <FlatList
-              data={this.state.listData}
-              renderItem={({item}) => (
-                  <View>
-                    <Text> {item.user_id} {item.user_givenname} {item.user_familyname}</Text>
-                  </View>
-              )}
-              keyExtractor={(item,index) => item.user_id.toString()}
-            />
-      </View>
-    );
-
-  };
-
-
   render() {
 
     if (this.state.isLoading){
@@ -95,11 +78,6 @@ class FriendsScreen extends Component {
     }else{
       return (
         <View>
-          <Button
-                    title="Search for users"
-                    color="darkblue"
-                    onPress={() => this.searchUser}
-                />
           <FlatList
                 data={this.state.listData}
                 renderItem={({item}) => (
