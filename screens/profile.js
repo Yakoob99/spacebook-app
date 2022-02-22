@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Button} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -84,6 +84,14 @@ class ProfileScreen extends Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
+          
+{/* request to edit profile picture */}
+          <Button
+                    title="Edit profile picture"
+                    style={{fontSize:15, fontWeight:'light', padding:3, margin:3,}}
+                    color="darkblue"
+                    onPress={() => this.searchUser}
+                />         
           
 {/* Welcome back message greeting user */}
 

@@ -3,13 +3,13 @@ import {View, Text, FlatList, Button} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-class FriendsScreen extends Component {
+class UploadPPScreen extends Component {
   constructor(props){
     super(props);
 
     this.state = {
       isLoading: true,
-      listData: []
+      user: null
 
     }
   }
@@ -28,7 +28,8 @@ class FriendsScreen extends Component {
 
   getData = async () => {
     const value = await AsyncStorage.getItem('@session_token');
-    return fetch("http://localhost:3333/api/1.0.0/search", {
+    const idValue = await AsyncStorage.getItem('@session_id');
+    return fetch("http://localhost:3333/api/1.0.0/user/" + idValue, {
           'headers': {
             'X-Authorization':  value
           }
@@ -45,7 +46,7 @@ class FriendsScreen extends Component {
         .then((responseJson) => {
           this.setState({
             isLoading: false,
-            listData: responseJson
+            user: responseJson
           })
         })
         .catch((error) => {
@@ -59,24 +60,6 @@ class FriendsScreen extends Component {
         this.props.navigation.navigate('Login');
     }
   };
-
-  searchUser = async () => {
-    return (
-      <View>
-        <FlatList
-              data={this.state.listData}
-              renderItem={({item}) => (
-                  <View>
-                    <Text> {item.user_id} {item.user_givenname} {item.user_familyname}</Text>
-                  </View>
-              )}
-              keyExtractor={(item,index) => item.user_id.toString()}
-            />
-      </View>
-    );
-
-  };
-
 
   render() {
 
@@ -94,21 +77,49 @@ class FriendsScreen extends Component {
       );
     }else{
       return (
-        <View>
+        <View
+        style={{
+          flex: 1,
+          flexDirection: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          
+{/* request to edit profile picture */}
           <Button
-                    title="Search for users"
+                    title="Edit profile picture"
+                    style={{fontSize:15, fontWeight:'light', padding:3, margin:3,}}
                     color="darkblue"
                     onPress={() => this.searchUser}
-                />
-          <FlatList
-                data={this.state.listData}
-                renderItem={({item}) => (
-                    <View>
-                      <Text> {item.user_id} {item.user_givenname} {item.user_familyname}</Text>
-                    </View>
-                )}
-                keyExtractor={(item,index) => item.user_id.toString()}
-              />
+                />         
+          
+{/* Welcome back message greeting user */}
+
+            <Text 
+            style={{fontSize:18, fontWeight:'bold', padding:5, margin:5}}>
+            {"Welcome Back " + this.state.user.first_name}
+            </Text>
+
+{/* Providing user ID */}
+
+            <Text 
+            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
+            {"User ID: " + this.state.user.user_id }
+            </Text>
+
+
+{/* Providing user name */}
+            <Text 
+            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
+            {"Name: " + this.state.user.first_name + " " + this.state.user.last_name }
+            </Text>
+
+{/* Providing user email */}
+            <Text 
+            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
+            {"Email: " + this.state.user.email }
+            </Text>
+
         </View>
       );
     }
@@ -118,4 +129,4 @@ class FriendsScreen extends Component {
 
 
 
-export default FriendsScreen;
+export default UploadPPScreen;
