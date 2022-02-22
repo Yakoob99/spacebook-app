@@ -120,6 +120,11 @@ class ProfileScreen extends Component {
             {"Email: " + this.state.user.email }
             </Text>
 
+            <Text 
+            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
+            {"Friend Count: " + this.state.user.friend_count }
+            </Text>
+
         </View>
       );
     }
