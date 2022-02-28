@@ -85,6 +85,63 @@ class FriendsScreen extends Component {
         })
   }
 
+  acceptFriendRequest = async (user_id) => {
+    const value = await AsyncStorage.getItem('@session_token');
+    const idValue = await AsyncStorage.getItem('@session_id');
+    return fetch("http://localhost:3333/api/1.0.0/friendrequests/"+ user_id, {
+      method: 'POST',
+          'headers': {
+            'X-Authorization':  value
+          }
+        })
+        .then((response) => {
+            if(response.status === 200){
+                return response.json()
+            }else if(response.status === 401){
+              this.props.navigation.navigate("Login");
+            }else{
+                throw 'Something went wrong';
+            }
+        })
+        .then((responseJson) => {
+          this.setState({
+            isLoading: false,
+            friendRequestsData: responseJson
+          })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+  }  
+
+  rejectFriendRequest = async (user_id) => {
+    const value = await AsyncStorage.getItem('@session_token');
+    const idValue = await AsyncStorage.getItem('@session_id');
+    return fetch("http://localhost:3333/api/1.0.0/friendrequests/"+ user_id, {
+      method: 'DELETE',
+          'headers': {
+            'X-Authorization':  value
+          }
+        })
+        .then((response) => {
+            if(response.status === 200){
+                return response.json()
+            }else if(response.status === 401){
+              this.props.navigation.navigate("Login");
+            }else{
+                throw 'Something went wrong';
+            }
+        })
+        .then((responseJson) => {
+          this.setState({
+            isLoading: false,
+            friendRequestsData: responseJson
+          })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+  }  
 
 
   checkLoggedIn = async () => {
@@ -129,7 +186,17 @@ class FriendsScreen extends Component {
                 data={this.state.friendRequestsData}
                 renderItem={({item}) => (
                     <View>
-                      <Text> {item.user_id} {item.first_name} {item.last_name}</Text>
+                      <Text> {item.user_id} {item.first_name} {item.last_name} 
+                      <Button
+                    title="Accept user"
+                    onPress={() => this.acceptFriendRequest(item.user_id)}
+                    style={{padding:5, borderWidth:1, margin:5}}
+                />
+                 <Button                   title="Reject user"
+                    onPress={() => this.rejectFriendRequest(item.user_id)}
+                    style={{padding:5, borderWidth:1, margin:5}}
+                />
+                </Text>
                     </View>
                 )}
                 keyExtractor={(item,index) => item.user_id.toString()}
