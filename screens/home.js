@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Button} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getCurrentTimestamp } from 'react-native/Libraries/Utilities/createPerformanceLogger';
 
 
 class HomeScreen extends Component {
@@ -20,6 +21,7 @@ class HomeScreen extends Component {
     });
   
     this.getData();
+    this.addFriend();
   }
 
   componentWillUnmount() {
@@ -53,6 +55,36 @@ class HomeScreen extends Component {
         })
   }
 
+  addFriend = async (user_id) => {
+    const value = await AsyncStorage.getItem('@session_token');
+    const idValue = await AsyncStorage.getItem('@session_id');
+    return fetch("http://localhost:3333/api/1.0.0/user/"+ user_id + "/friends" ,{
+      method: 'POST',
+          'headers': {
+            'X-Authorization':  value
+          }
+        })
+        .then((response) => {
+          console.log(response.status)
+            if(response.status === 200){
+                return response.json()
+            }else if(response.status === 401){
+              this.props.navigation.navigate("Login");
+            }else{
+                throw 'Something went wrong';
+            }
+        })
+        .then((responseJson) => {
+          this.setState({
+            isLoading: false,
+            friendRequestsData: responseJson
+          })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+  }  
+
   checkLoggedIn = async () => {
     const value = await AsyncStorage.getItem('@session_token');
     if (value == null) {
@@ -81,7 +113,13 @@ class HomeScreen extends Component {
                 data={this.state.listData}
                 renderItem={({item}) => (
                     <View>
-                      <Text> {item.user_id} {item.user_givenname} {item.user_familyname}</Text>
+                      <Text> {item.user_id} {item.user_givenname} {item.user_familyname}
+                      <Button
+                    title="Add"
+                    onPress={() => this.addFriend(item.user_id)}
+                    style={{padding:5, borderWidth:1, margin:5, }}
+                />
+                      </Text>
                     </View>
                 )}
                 keyExtractor={(item,index) => item.user_id.toString()}
