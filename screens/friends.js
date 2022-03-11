@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, FlatList, Button} from 'react-native';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -171,6 +172,11 @@ class FriendsScreen extends Component {
 
       return (
         <View>
+          <Button
+                    title="Meet the users"
+                    color="darkblue"
+                    onPress={() => this.props.navigation.navigate("Add Friends")}
+                />
           <Text>Friends Online:</Text>
           <FlatList
                 data={this.state.friendsListData}

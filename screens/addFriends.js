@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {View, Text, FlatList, Button} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-class HomeScreen extends Component {
+
+class addFriendsScreen extends Component {
   constructor(props){
     super(props);
 
@@ -131,4 +132,4 @@ class HomeScreen extends Component {
 
 
 
-export default HomeScreen;
+export default addFriendsScreen;
