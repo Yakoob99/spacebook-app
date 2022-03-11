@@ -26,9 +26,9 @@ class App extends Component{
                     <Drawer.Screen name="Signup" component={SignupScreen} />
                     <Drawer.Screen name="Update Info" component={UpdateUserScreen} />
                     <Drawer.Screen name="Upload PP" component={UploadPPScreen} />
+                    <Drawer.Screen name="Add Friends" component={addFriendsScreen} />
                     <Drawer.Screen name="Login" component={LoginScreen} />
                     <Drawer.Screen name="Logout" component={LogoutScreen} />
-                    <Drawer.Screen name="Add Friends" component={addFriendsScreen} />
                 </Drawer.Navigator>
                 
             </NavigationContainer>

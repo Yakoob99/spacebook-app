@@ -7,8 +7,9 @@ class HomeScreen extends Component {
     super(props);
 
     this.state = {
-      isLoading: true,
-      listData: []
+      isLoading: false,
+      friendsListData: [],
+      postdata:[]
 
     }
   }
@@ -18,17 +19,18 @@ class HomeScreen extends Component {
       this.checkLoggedIn();
     });
   
-    this.getData();
-    this.addFriend();
+    this.getFriends();
+    // this.getPosts(8);
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  getData = async () => {
+  getFriends = async () => {
     const value = await AsyncStorage.getItem('@session_token');
-    return fetch("http://localhost:3333/api/1.0.0/search", {
+    const idValue = await AsyncStorage.getItem('@session_id');
+    return fetch("http://localhost:3333/api/1.0.0/user/" + idValue + "/friends", {
           'headers': {
             'X-Authorization':  value
           }
@@ -45,7 +47,7 @@ class HomeScreen extends Component {
         .then((responseJson) => {
           this.setState({
             isLoading: false,
-            listData: responseJson
+            friendsListData: responseJson
           })
         })
         .catch((error) => {
@@ -53,17 +55,16 @@ class HomeScreen extends Component {
         })
   }
 
-  addFriend = async (user_id) => {
+  getPosts = async (user_id) => {
     const value = await AsyncStorage.getItem('@session_token');
     const idValue = await AsyncStorage.getItem('@session_id');
-    return fetch("http://localhost:3333/api/1.0.0/user/"+ user_id + "/friends" ,{
-      method: 'POST',
-          'headers': {
-            'X-Authorization':  value
-          }
+    return fetch("http://localhost:3333/api/1.0.0/user/" + user_id + "/post", {
+      method: 'get',
+      headers: {
+          "X-Authorization": value
+      }
         })
         .then((response) => {
-          console.log(response.status)
             if(response.status === 200){
                 return response.json()
             }else if(response.status === 401){
@@ -75,13 +76,14 @@ class HomeScreen extends Component {
         .then((responseJson) => {
           this.setState({
             isLoading: false,
-            friendRequestsData: responseJson
+            postdata: responseJson
           })
         })
         .catch((error) => {
             console.log(error);
         })
-  }  
+  }
+
 
   checkLoggedIn = async () => {
     const value = await AsyncStorage.getItem('@session_token');
@@ -93,6 +95,7 @@ class HomeScreen extends Component {
   render() {
 
     if (this.state.isLoading){
+      console.log(this.state.postdata)
       return (
         <View
           style={{
@@ -105,23 +108,35 @@ class HomeScreen extends Component {
         </View>
       );
     }else{
+
       return (
         <View>
+
+          <Text>Friends Online:</Text>
           <FlatList
-                data={this.state.listData}
+                data={this.state.friendsListData}
                 renderItem={({item}) => (
                     <View>
-                      <Text> {item.user_id} {item.user_givenname} {item.user_familyname}
+                      <Text> {item.user_id} {item.user_givenname} {item.user_familyname}</Text>
                       <Button
-                    title="Add"
-                    onPress={() => this.addFriend(item.user_id)}
-                    style={{padding:5, borderWidth:1, margin:5, }}
+                    title="See posts"
+                    onPress={() => this.getPosts(item.user_id)}
+                    style={{padding:5, borderWidth:1, margin:5}}
                 />
-                      </Text>
                     </View>
                 )}
                 keyExtractor={(item,index) => item.user_id.toString()}
               />
+          <FlatList
+                data={this.state.postdata}
+                renderItem={({item}) => (
+                    <View>
+                      <Text>Post ID: {item.post_id}  "{item.text}" Author: {item.author.first_name} {item.author.last_name} </Text>
+                    </View>
+                )}
+                keyExtractor={(item,index) => item.post_id.toString()}
+              />
+
         </View>
       );
     }
