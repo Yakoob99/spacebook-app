@@ -122,6 +122,8 @@ class HomeScreen extends Component {
   };
 
   render() {
+    console.log(this.state.postdata)
+
 
     if (this.state.isLoading){
       console.log(this.state.postdata)
@@ -171,7 +173,13 @@ class HomeScreen extends Component {
                 data={this.state.postdata}
                 renderItem={({item}) => (
                     <View>
-                      <Text>Post ID: {item.post_id}  "{item.text}" Author: {item.author.first_name} {item.author.last_name} </Text>
+                      <Text>Post ID: 
+                        <Button
+                    title= {item.post_id}
+                    onPress={() => this.props.navigation.navigate('SinglePost', {user_id: item.author.user_id, post_id: item.post_id})}
+                    style={{padding:5, borderWidth:1, margin:5}}
+                />  "{item.text}" Author: {item.author.first_name} {item.author.last_name} 
+                       </Text>
                     </View>
                 )}
                 keyExtractor={(item,index) => item.post_id.toString()}

@@ -12,6 +12,8 @@ import UpdateUserScreen from './screens/updateUser';
 import FriendsScreen from './screens/friends';
 import UploadPPScreen from './screens/uploadPP';
 import addFriendsScreen from './screens/addFriends';
+import SinglePostScreen from './screens/singlePost';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -26,9 +28,10 @@ class App extends Component{
                     <Drawer.Screen name="Signup" component={SignupScreen} />
                     <Drawer.Screen name="Update Info" component={UpdateUserScreen} />
                     <Drawer.Screen name="Upload PP" component={UploadPPScreen} />
-                    <Drawer.Screen name="Add Friends" component={addFriendsScreen} />
+                    <Drawer.Screen name="Add Friends" component={addFriendsScreen} options ={{drawerItemStyle: { height: 0 }}}/> 
                     <Drawer.Screen name="Login" component={LoginScreen} />
                     <Drawer.Screen name="Logout" component={LogoutScreen} />
+                    <Drawer.Screen name="SinglePost" component={SinglePostScreen} options ={{drawerItemStyle: { height: 0 }}}/>
                 </Drawer.Navigator>
                 
             </NavigationContainer>
