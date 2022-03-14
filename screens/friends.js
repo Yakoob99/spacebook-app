@@ -182,7 +182,7 @@ class FriendsScreen extends Component {
                 data={this.state.friendsListData}
                 renderItem={({item}) => (
                     <View>
-                      <Text> {item.user_id} {item.user_givenname} {item.user_familyname}</Text>
+                      <Text>{item.user_givenname} {item.user_familyname}</Text>
                     </View>
                 )}
                 keyExtractor={(item,index) => item.user_id.toString()}

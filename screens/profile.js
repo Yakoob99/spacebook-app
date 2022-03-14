@@ -125,6 +125,12 @@ class ProfileScreen extends Component {
             {"Friend Count: " + this.state.user.friend_count }
             </Text>
 
+            <Button
+                    title="Edit Profile"
+                    color="darkblue"
+                    onPress={() => this.props.navigation.navigate("Update Info")}
+                />
+
         </View>
       );
     }

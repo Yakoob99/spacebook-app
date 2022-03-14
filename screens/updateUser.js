@@ -81,7 +81,7 @@ class App extends Component {
     render() {
         return (
             <View>
-                <Text>Update an Item</Text>
+                <Text>Update your information</Text>
 
                 <TextInput
                     placeholder="Enter first name..."
