@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, Button} from 'react-native';
+import {View, Text, FlatList, Button, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class HomeScreen extends Component {
@@ -9,8 +9,8 @@ class HomeScreen extends Component {
     this.state = {
       isLoading: false,
       friendsListData: [],
-      postdata:[]
-
+      postdata:[],
+      text: "",
     }
   }
 
@@ -20,12 +20,41 @@ class HomeScreen extends Component {
     });
   
     this.getFriends();
+    this.makePost();
     // this.getPosts(8);
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
+
+  makePost = async () => {
+    const value = await AsyncStorage.getItem('@session_token')
+    const idValue = await AsyncStorage.getItem('@session_id');
+    return fetch("http://localhost:3333/api/1.0.0/user/"+ idValue + "/post/", {
+        method: 'post',
+        headers: {
+            'X-Authorization': value ,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state)
+    })
+        .then((response) => {
+            if (response.status === 201) {
+                return response.json()
+            } else if (response.status === 400) {
+                throw Error('Failed validation')
+            } else {
+                throw Error('Something went wrong')
+            }
+        })
+        .then((responseJson) => {
+            console.log('Post created with ID: ', responseJson)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+}
 
   getFriends = async () => {
     const value = await AsyncStorage.getItem('@session_token');
@@ -111,6 +140,17 @@ class HomeScreen extends Component {
 
       return (
         <View>
+          <TextInput
+                    placeholder="What is on your mind"
+                    onChangeText={(text) => this.setState({text})}
+                    value={this.state.text}
+                    style={{padding:5, borderWidth:1, margin:5}}
+                />
+          <Button
+                    title="make posts"
+                    onPress={() => this.makePost()}
+                    style={{padding:5, borderWidth:1, margin:5}}
+                />
 
           <Text>Friends Online:</Text>
           <FlatList
