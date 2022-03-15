@@ -80,7 +80,13 @@ class App extends Component {
 
     render() {
         return (
-            <View>
+            <View         
+            style={{
+                flex: 1,
+                flexDirection: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
                 <Text>Update your information</Text>
 
                 <TextInput

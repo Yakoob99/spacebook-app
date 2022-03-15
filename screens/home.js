@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, Button, TextInput} from 'react-native';
+import {View, FlatList, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button, ButtonGroup, withTheme, Text } from 'react-native-elements';
 
 class HomeScreen extends Component {
   constructor(props){
@@ -113,6 +114,33 @@ class HomeScreen extends Component {
         })
   }
 
+  likePosts = async (user_id, post_id) => {
+    const value = await AsyncStorage.getItem('@session_token');
+    const idValue = await AsyncStorage.getItem('@session_id');
+    return fetch("http://localhost:3333/api/1.0.0/user/" +user_id+ "/post/" +post_id+ "/like", {
+      method: 'Post',
+      headers: {
+        'X-Authorization': value 
+    }
+})
+    .then((response) => {
+        if (response.status === 200) {
+            console.log("Ok")
+        } else if (response.status === 400) {
+            throw Error('Failed validation')
+        } else {
+            return response.json()
+            // throw Error('Something went wrong')
+        }
+    })
+    .then((responseJson) => {
+        console.log('Liked: ', responseJson)
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
+
 
   checkLoggedIn = async () => {
     const value = await AsyncStorage.getItem('@session_token');
@@ -141,7 +169,14 @@ class HomeScreen extends Component {
     }else{
 
       return (
-        <View>
+        <View         
+        style={{
+          flex: 1,
+          flexDirection: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          
           <TextInput
                     placeholder="What is on your mind"
                     onChangeText={(text) => this.setState({text})}
@@ -179,6 +214,29 @@ class HomeScreen extends Component {
                     onPress={() => this.props.navigation.navigate('SinglePost', {user_id: item.author.user_id, post_id: item.post_id})}
                     style={{padding:5, borderWidth:1, margin:5}}
                 />  "{item.text}" Author: {item.author.first_name} {item.author.last_name} 
+              <Button
+                title=""
+                icon={{
+                  name: 'thumbs-up',
+                  type: 'font-awesome',
+                  size: 15,
+                  color: 'white',
+                }}
+                iconContainerStyle={{ marginRight: 10 }}
+                titleStyle={{ fontWeight: '700' }}
+                buttonStyle={{
+                  backgroundColor: 'rgba(90, 154, 230, 1)',
+                  borderColor: 'transparent',
+                  borderWidth: 0,
+                  borderRadius: 30,
+                }}
+                containerStyle={{
+                  width: 100,
+                  marginHorizontal: 50,
+                  marginVertical: 10,
+                }}
+                onPress={() => this.likePosts(item.author.user_id, item.post_id)}
+              />
                        </Text>
                     </View>
                 )}
