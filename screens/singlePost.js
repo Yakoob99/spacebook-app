@@ -27,9 +27,6 @@ class SinglePostScreen extends Component {
   }
 
 
-
-
-
   getSinglePost = async (user_id, post_id) => {
     const value = await AsyncStorage.getItem('@session_token');
     const idValue = await AsyncStorage.getItem('@session_id');

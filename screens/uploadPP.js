@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, FlatList, Button} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Camera } from 'expo-camera';
 
 
 class UploadPPScreen extends Component {
@@ -77,48 +78,7 @@ class UploadPPScreen extends Component {
       );
     }else{
       return (
-        <View
-        style={{
-          flex: 1,
-          flexDirection: 'center',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          
-{/* request to edit profile picture */}
-          <Button
-                    title="Edit profile picture"
-                    style={{fontSize:15, fontWeight:'light', padding:3, margin:3,}}
-                    color="darkblue"
-                    onPress={() => this.searchUser}
-                />         
-          
-{/* Welcome back message greeting user */}
-
-            <Text 
-            style={{fontSize:18, fontWeight:'bold', padding:5, margin:5}}>
-            {"Welcome Back " + this.state.user.first_name}
-            </Text>
-
-{/* Providing user ID */}
-
-            <Text 
-            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
-            {"User ID: " + this.state.user.user_id }
-            </Text>
-
-
-{/* Providing user name */}
-            <Text 
-            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
-            {"Name: " + this.state.user.first_name + " " + this.state.user.last_name }
-            </Text>
-
-{/* Providing user email */}
-            <Text 
-            style={{fontSize:12, fontWeight:'bold', padding:5, margin:5}}>
-            {"Email: " + this.state.user.email }
-            </Text>
+        <View>
 
         </View>
       );
