@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, Button} from 'react-native';
+import {View,FlatList,} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button, ButtonGroup, withTheme, Text } from 'react-native-elements';
 
 
 class ProfileScreen extends Component {
@@ -90,7 +91,7 @@ class ProfileScreen extends Component {
                     title="Edit profile picture"
                     style={{fontSize:15, fontWeight:'light', padding:3, margin:3,}}
                     color="darkblue"
-                    onPress={() => this.searchUser}
+                    onPress={() => this.props.navigation.navigate('Upload PP')}
                 />         
           
 {/* Welcome back message greeting user */}

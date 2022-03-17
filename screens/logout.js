@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, Button } from 'react-native';
+import { ScrollView,  } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button, ButtonGroup, withTheme, Text } from 'react-native-elements';
 
 class HomeScreen extends Component{
     constructor(props){

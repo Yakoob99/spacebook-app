@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, Button} from 'react-native';
+import {View, FlatList,} from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button, ButtonGroup, withTheme, Text } from 'react-native-elements';
 
 
 class FriendsScreen extends Component {
@@ -177,7 +178,7 @@ class FriendsScreen extends Component {
                     color="darkblue"
                     onPress={() => this.props.navigation.navigate("Add Friends")}
                 />
-          <Text>Friends Online:</Text>
+          <Text style={{fontSize:18, fontWeight:'bold', padding:5, margin:5}}>Friends Online:</Text>
           <FlatList
                 data={this.state.friendsListData}
                 renderItem={({item}) => (
@@ -187,7 +188,7 @@ class FriendsScreen extends Component {
                 )}
                 keyExtractor={(item,index) => item.user_id.toString()}
               />
-              <Text>Friend requests:</Text>
+              <Text style={{fontSize:18, fontWeight:'bold', padding:5, margin:5}}>Friend requests:</Text>
 <FlatList
                 data={this.state.friendRequestsData}
                 renderItem={({item}) => (

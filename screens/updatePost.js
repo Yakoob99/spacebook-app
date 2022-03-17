@@ -119,9 +119,16 @@ class UpdatePostScreen extends Component {
           alignItems: 'center',
         }}>
 
+<TextInput
+                    placeholder="Enter text..."
+                    onChangeText={(text) => this.setState({text})}
+                    value={this.state.text}
+                    style={{padding:5, borderWidth:1, margin:5}}
+                />
+
 <Button
                     title="Update"
-                    onPress={() => this.updatePosts(this.state.postdata.post_id, { text: "hello"})}
+                    onPress={() => this.updatePosts(this.state.postdata.post_id, { text: this.state.text})}
                     style={{padding:5, borderWidth:1, margin:5}}
                 />
           
