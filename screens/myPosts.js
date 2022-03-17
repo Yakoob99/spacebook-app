@@ -174,7 +174,7 @@ class MyPostsScreen extends Component {
                   marginHorizontal: 50,
                   marginVertical: 10,
                 }}
-                onPress={() => this.unLikePosts(item.author.user_id, item.post_id)}
+                onPress={() => this.props.navigation.navigate('Update Post' , { post_id: item.post_id })}
               />
                        </Text>
                     </View>
