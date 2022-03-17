@@ -141,6 +141,33 @@ class HomeScreen extends Component {
     })
 }
 
+unLikePosts = async (user_id, post_id) => {
+  const value = await AsyncStorage.getItem('@session_token');
+  const idValue = await AsyncStorage.getItem('@session_id');
+  return fetch("http://localhost:3333/api/1.0.0/user/" +user_id+ "/post/" +post_id+ "/like", {
+    method: 'Delete',
+    headers: {
+      'X-Authorization': value 
+  }
+})
+  .then((response) => {
+      if (response.status === 200) {
+          console.log("Ok")
+      } else if (response.status === 400) {
+          throw Error('Failed validation')
+      } else {
+          return response.json()
+          // throw Error('Something went wrong')
+      }
+  })
+  .then((responseJson) => {
+      console.log('Un-Liked: ', responseJson)
+  })
+  .catch((error) => {
+      console.log(error)
+  })
+}
+
 
   checkLoggedIn = async () => {
     const value = await AsyncStorage.getItem('@session_token');
@@ -184,7 +211,7 @@ class HomeScreen extends Component {
                     style={{padding:5, borderWidth:1, margin:5}}
                 />
           <Button
-                    title="make posts"
+                    title="Make Posts"
                     onPress={() => this.makePost()}
                     style={{padding:5, borderWidth:1, margin:5}}
                 />
@@ -194,7 +221,7 @@ class HomeScreen extends Component {
                 data={this.state.friendsListData}
                 renderItem={({item}) => (
                     <View>
-                      <Text> {item.user_id} {item.user_givenname} {item.user_familyname}</Text>
+                      <Text> {item.user_givenname} {item.user_familyname}</Text>
                       <Button
                     title="See posts"
                     onPress={() => this.getPosts(item.user_id)}
@@ -236,6 +263,29 @@ class HomeScreen extends Component {
                   marginVertical: 10,
                 }}
                 onPress={() => this.likePosts(item.author.user_id, item.post_id)}
+              />
+                            <Button
+                title=""
+                icon={{
+                  name: 'thumbs-down',
+                  type: 'font-awesome',
+                  size: 15,
+                  color: 'white',
+                }}
+                iconContainerStyle={{ marginRight: 10 }}
+                titleStyle={{ fontWeight: '700' }}
+                buttonStyle={{
+                  backgroundColor: 'rgba(90, 154, 230, 1)',
+                  borderColor: 'transparent',
+                  borderWidth: 0,
+                  borderRadius: 30,
+                }}
+                containerStyle={{
+                  width: 100,
+                  marginHorizontal: 50,
+                  marginVertical: 10,
+                }}
+                onPress={() => this.unLikePosts(item.author.user_id, item.post_id)}
               />
                        </Text>
                     </View>
