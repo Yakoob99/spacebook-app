@@ -21,7 +21,6 @@ class HomeScreen extends Component {
     });
   
     this.getFriends();
-    this.makePost();
     // this.getPosts(8);
   }
 
@@ -213,6 +212,11 @@ unLikePosts = async (user_id, post_id) => {
           <Button
                     title="Make Posts"
                     onPress={() => this.makePost()}
+                    style={{padding:5, borderWidth:1, margin:5}}
+                />
+                <Button
+                    title="See my posts"
+                    onPress={() => this.props.navigation.navigate("My Post")}
                     style={{padding:5, borderWidth:1, margin:5}}
                 />
 

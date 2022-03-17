@@ -13,6 +13,7 @@ import FriendsScreen from './screens/friends';
 import UploadPPScreen from './screens/uploadPP';
 import addFriendsScreen from './screens/addFriends';
 import SinglePostScreen from './screens/singlePost';
+import MyPostsScreen from './screens/myPosts';
 
 
 const Drawer = createDrawerNavigator();
@@ -32,6 +33,7 @@ class App extends Component{
                     <Drawer.Screen name="Add Friends" component={addFriendsScreen} options ={{drawerItemStyle: { height: 0 }}}/> 
                     <Drawer.Screen name="Signup" component={SignupScreen} options ={{drawerItemStyle: { height: 0 }}}/>
                     <Drawer.Screen name="Update Info" component={UpdateUserScreen} options ={{drawerItemStyle: { height: 0 }}}/>
+                    <Drawer.Screen name="My Post" component={MyPostsScreen} options ={{drawerItemStyle: { height: 0 }}}/>
                 </Drawer.Navigator>
                 
             </NavigationContainer>
