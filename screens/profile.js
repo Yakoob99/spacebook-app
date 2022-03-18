@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View,FlatList,} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, ButtonGroup, withTheme, Text } from 'react-native-elements';
+import { Button, ButtonGroup, withTheme, Text, Image} from 'react-native-elements';
 
 
 class ProfileScreen extends Component {
@@ -10,7 +10,8 @@ class ProfileScreen extends Component {
 
     this.state = {
       isLoading: true,
-      user: null
+      user: null,
+      photo: null,
 
     }
   }
@@ -21,6 +22,7 @@ class ProfileScreen extends Component {
     });
   
     this.getData();
+    this.getProfileImage();
   }
 
   componentWillUnmount() {
@@ -55,6 +57,32 @@ class ProfileScreen extends Component {
         })
   }
 
+  getProfileImage = async () => {
+    const value = await AsyncStorage.getItem('@session_token');
+    const idValue = await AsyncStorage.getItem('@session_id');
+    fetch("http://localhost:3333/api/1.0.0/user/" + idValue +"/photo" , {
+      method: 'GET',
+      headers: {
+        'X-Authorization': value 
+      }
+    })
+    .then((res) => {
+      return res.blob();
+    })
+    .then((resBlob) => {
+      let data = URL.createObjectURL(resBlob);
+      this.setState({
+        photo: data,
+        isLoading: false
+      });
+    })
+    .catch((err) => {
+      console.log("error", err)
+    });
+  }
+
+
+
   checkLoggedIn = async () => {
     const value = await AsyncStorage.getItem('@session_token');
     if (value == null) {
@@ -85,6 +113,16 @@ class ProfileScreen extends Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
+<Image
+            source={{
+              uri: this.state.photo,
+            }}
+            style={{
+              width: 200,
+              height: 200,
+              borderWidth: 5 
+            }}
+          />
           
 {/* request to edit profile picture */}
           <Button
